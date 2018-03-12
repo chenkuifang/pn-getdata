@@ -2,7 +2,12 @@ package com.example.user.controller;
 
 import com.example.user.entity.KmData;
 import com.example.user.service.KmDataService;
+import com.example.user.util.HttpClientUtil;
 import com.example.user.util.ReadExcel;
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
+import org.jsoup.select.Elements;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -50,7 +55,7 @@ public class IndexController {
         try {
             List<KmData> data = ReadExcel.readXls(fileName);
 
-            result = kmDataService.addBatch(data);
+            //result = kmDataService.addBatch(data);
 
         } catch (IOException e) {
             e.printStackTrace();
@@ -58,6 +63,33 @@ public class IndexController {
 
 
         return result > 0 ? "ok" : "fail";
+    }
+
+
+    /**
+     * 获取第一个节点网址
+     *
+     * @return
+     */
+    @GetMapping("/get-first")
+    public String getFirstSpan() throws Exception {
+        String result = HttpClientUtil.doGet("http://www.yaopinnet.com/tools/wenhao.asp?keyword=Z23021461");
+
+        Document doc = Jsoup.parse(result);
+
+        String title = doc.title();
+
+        Element element = doc.body();
+
+        Element e = element.getElementById("search_list_table");
+
+
+        Elements e1 =   e.getElementsByAttribute("href");
+
+        String tableContent = e1.html();
+        System.err.println(tableContent);
+
+        return tableContent;
     }
 
 }
