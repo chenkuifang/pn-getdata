@@ -54,7 +54,7 @@ public interface KmDataMapper {
      * @param list
      * @return
      */
-    Integer addBacth(List<KmData> list);
+    Integer addBatch(List<KmData> list);
 
     /**
      * 根据主键获取单个对象

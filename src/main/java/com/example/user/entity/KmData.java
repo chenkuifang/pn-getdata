@@ -19,6 +19,7 @@ public class KmData {
     private String isPrescription;
     private String isMedical;
     private String isSpecial;
+    private String unit;
     private String agentType;
     private String explain;
 
@@ -126,6 +127,14 @@ public class KmData {
         this.id = id;
     }
 
+    public String getUnit() {
+        return unit;
+    }
+
+    public void setUnit(String unit) {
+        this.unit = unit;
+    }
+
     @Override
     public String toString() {
         return "KmData{" +
@@ -140,6 +149,7 @@ public class KmData {
                 ", isPrescription='" + isPrescription + '\'' +
                 ", isMedical='" + isMedical + '\'' +
                 ", isSpecial='" + isSpecial + '\'' +
+                ", unit='" + unit + '\'' +
                 ", agentType='" + agentType + '\'' +
                 ", explain='" + explain + '\'' +
                 '}';

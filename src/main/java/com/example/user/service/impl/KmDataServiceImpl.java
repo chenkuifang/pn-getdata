@@ -13,7 +13,7 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * 用户服务层接口实现类
+ * 服务层接口实现类
  *
  * @author QuiFar
  * @version V1.0
@@ -46,8 +46,8 @@ public class KmDataServiceImpl implements KmDataService {
     }
 
     @Override
-    public Integer addBacth(List<KmData> list) {
-        return kmDataMapper.addBacth(list);
+    public Integer addBatch(List<KmData> list) {
+        return kmDataMapper.addBatch(list);
     }
 
     @Override

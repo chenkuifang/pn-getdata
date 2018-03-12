@@ -7,7 +7,7 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * 用户服务层接口
+ * 服务层接口
  *
  * @author QuiFar
  * @version V1.0
@@ -52,7 +52,7 @@ public interface KmDataService {
      * @param list
      * @return
      */
-    Integer addBacth(List<KmData> list);
+    Integer addBatch(List<KmData> list);
 
     /**
      * 根据主键获取单个对象

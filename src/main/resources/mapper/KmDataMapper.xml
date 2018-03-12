@@ -1,0 +1,147 @@
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.user.mapper.KmDataMapper">
+	<resultMap type="KmData" id="kmData">
+		<id property="id" column="id" jdbcType="NUMERIC"/>
+		<result property="number" column="number" jdbcType="VARCHAR"/>
+		<result property="name" column="name" jdbcType="VARCHAR"/>
+		<result property="spec" column="spec" jdbcType="VARCHAR"/>
+		<result property="source" column="source" jdbcType="VARCHAR"/>
+		<result property="productionUnit" column="production_unit" jdbcType="VARCHAR"/>
+		<result property="documentNumber" column="document_number" jdbcType="VARCHAR"/>
+		<result property="type" column="type" jdbcType="VARCHAR"/>
+		<result property="isPrescription" column="is_prescription" jdbcType="VARCHAR"/>
+		<result property="isMedical" column="is_medical" jdbcType="VARCHAR"/>
+		<result property="isSpecial" column="is_special" jdbcType="VARCHAR"/>
+		<result property="unit" column="unit" jdbcType="VARCHAR"/>
+		<result property="agentType" column="agent_type" jdbcType="VARCHAR"/>
+		<result property="explain" column="explain" jdbcType="VARCHAR"/>
+
+		<!--&lt;!&ndash; 角色一对一映射关系 &ndash;&gt;-->
+		<!--<association property="role" javaType="Role">   -->
+            <!--<id property="roleId" column="role_id"/>-->
+            <!--<result property="roleName" column="role_name"/>-->
+        <!--</association>-->
+	</resultMap>
+
+	<sql id="columns">
+		a.id,a.number,a.name,a.spec
+		,a.source,a.production_unit,a.document_number
+		,a.type,a.is_prescription,a.is_medical,a.is_special
+		,a.unit,a.agent_type,a.explain
+	</sql>
+
+	<select id="get" resultMap="kmData" parameterType="java.lang.Integer">
+		select
+			<include refid="columns" />
+		from pn_km_data a
+		where a.id = #{id}
+	</select>
+
+	<select id="list" resultMap="kmData" parameterType="java.util.Map">
+		select
+			<include refid="columns" />
+		<where>
+			<if test="userName != null and userName != ''">
+				a.user_name like '%${userName}%'
+			</if>
+
+		</where>
+		order by a.id desc
+	</select>
+
+	<insert id="add" parameterType="KmData">
+		insert into pn_km_data
+			(number,name,spec
+			,source,production_unit,document_number
+			,type,is_prescription,is_medical,is_special,unit
+			,agent_type,explain)
+		values (
+			#{number,}, #{name}, #{spec}, #{source},
+			#{productionUnit}, #{documentNumber}, #{type}, #{isPrescription},
+			#{isMedical}, #{isSpecial},#{unit}, #{agentType}, #{explain}
+		)
+	</insert>
+
+	<insert id="addBatch" parameterType="java.util.List">
+		insert into pn_km_data
+		(
+			number,name,spec,source
+			,production_unit,document_number
+			,type,is_prescription,is_medical
+			,is_special,unit,agent_type
+		)
+		values
+		<foreach collection="list" item="kmData" index="index" separator=",">
+			(
+				#{kmData.number,jdbcType=VARCHAR},
+				#{kmData.name,jdbcType=VARCHAR},
+				#{kmData.spec,jdbcType=VARCHAR},
+				#{kmData.source,jdbcType=VARCHAR},
+				#{kmData.productionUnit,jdbcType=VARCHAR},
+				#{kmData.documentNumber,jdbcType=VARCHAR},
+				#{kmData.type,jdbcType=VARCHAR},
+				#{kmData.isPrescription,jdbcType=VARCHAR},
+				#{kmData.isMedical,jdbcType=VARCHAR},
+				#{kmData.isSpecial,jdbcType=VARCHAR},
+				#{kmData.unit,jdbcType=VARCHAR},
+				#{kmData.agentType,jdbcType=VARCHAR}
+			)
+		</foreach>
+
+	</insert>
+
+	<update id="update" parameterType="User">
+		update pn_km_data
+		<trim prefix="set" suffixOverrides=",">
+			<if test="userName!=null">
+				user_name=#{userName,jdbcType=VARCHAR},
+			</if>
+			<if test="password!=null">
+				password=#{password,jdbcType=VARCHAR},
+			</if>
+			<if test="departmentId!=null">
+				departmentId=#{departmentId,jdbcType=NUMERIC},
+			</if>
+			<if test="roleId!=null">
+				role_id=#{roleId,jdbcType=NUMERIC},
+			</if>
+			<if test="userNike!=null">
+				user_nike=#{userNike,jdbcType=VARCHAR},
+			</if>
+			<if test="email!=null">
+				email=#{email,jdbcType=VARCHAR},
+			</if>
+			<if test="mobile!=null">
+				mobile=#{mobile,jdbcType=VARCHAR},
+			</if>
+			<if test="sex!=null">
+				sex=#{sex,jdbcType=NUMERIC},
+			</if>
+			<if test="createId!=null">
+				create_id=#{createId,jdbcType=NUMERIC},
+			</if>
+			<if test="createTime!=null">
+				create_time=#{createTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="updateTime!=null">
+				update_time=#{updateTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="status!=null">
+				status=#{status,jdbcType=VARCHAR},
+			</if>
+		</trim>
+		where id=#{id}
+	</update>
+
+	<delete id="remove" parameterType="java.lang.Integer">
+		update pn_km_data set status = status + 64 where id = #{id}
+	</delete>
+	
+	<delete id="removeBatch" parameterType="java.lang.String">
+		update pn_km_data set status = status + 64
+		where id in
+		 <foreach item="item" collection="array" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+	</delete>
+</mapper>

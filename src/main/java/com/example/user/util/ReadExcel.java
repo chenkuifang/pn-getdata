@@ -65,8 +65,10 @@ public class ReadExcel {
                     // 是否医保
                     XSSFCell isMedical = hssfRow.getCell(8);
                     XSSFCell isSpecial = hssfRow.getCell(9);
-                    XSSFCell agentType = hssfRow.getCell(10);
-                    XSSFCell explain = hssfRow.getCell(11);
+                    XSSFCell unit = hssfRow.getCell(10);
+                    XSSFCell agentType = hssfRow.getCell(11);
+
+                   // XSSFCell explain = hssfRow.getCell(12);
 
 //                    result.add(getValue(number));
 //                    result.add(getValue(name));
@@ -99,8 +101,8 @@ public class ReadExcel {
                     kmData.setIsMedical(getValue(isMedical));
                     kmData.setIsSpecial(getValue(isSpecial));
                     kmData.setAgentType(getValue(agentType));
-                    kmData.setExplain(getValue(explain));
-
+                   //kmData.setExplain(getValue(explain));
+                    kmData.setUnit(getValue(unit));
                     result.add(kmData);
 
                 }
