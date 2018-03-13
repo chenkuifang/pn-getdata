@@ -16,7 +16,7 @@ public class MainBen2 {
 
     public static void main(String[] args) throws IOException {
 
-        String audit_number = "注册证号ZC20060010";
+        String audit_number = "h22026232";
         String url = "http://www.yaopinnet.com/tools/wenhao.asp?keyword=" + audit_number;
         getDetailUrl(url);
 

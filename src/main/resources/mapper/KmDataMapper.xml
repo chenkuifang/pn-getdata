@@ -38,11 +38,14 @@
 	</select>
 
 	<select id="list" resultMap="kmData" parameterType="java.util.Map">
-		select
+		<!--select
 			<include refid="columns" />
 		from pn_km_data a
 		order by a.id asc
-		limit 1490,1000
+		limit 3366,246-->
+
+		select id,explain1 from pn_km_data where explain1 LIKE '%分享到：%'
+
 	</select>
 
 	<insert id="add" parameterType="KmData">
