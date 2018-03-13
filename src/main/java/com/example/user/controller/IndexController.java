@@ -23,6 +23,8 @@ import java.util.List;
 @RestController
 public class IndexController {
 
+    private final String fileName = "E:/km-data.xlsx";
+
     @Autowired
     private KmDataService kmDataService;
 
@@ -33,7 +35,7 @@ public class IndexController {
 
     @GetMapping("/get-data")
     public String getData() {
-        String fileName = "D:/km-data.xlsx";
+
         int size = 0;
         try {
             List<KmData> data = ReadExcel.readXls(fileName);
@@ -50,7 +52,7 @@ public class IndexController {
 
     @GetMapping("/add-batch")
     public String addBatch() {
-        String fileName = "D:/km-data.xlsx";
+
         int result = 0;
         try {
             List<KmData> data = ReadExcel.readXls(fileName);
@@ -71,25 +73,65 @@ public class IndexController {
      *
      * @return
      */
-    @GetMapping("/get-first")
-    public String getFirstSpan() throws Exception {
-        String result = HttpClientUtil.doGet("http://www.yaopinnet.com/tools/wenhao.asp?keyword=Z23021461");
+    @GetMapping("/get")
+    public String get() {
+        try {
+            //return getFirstSpan("国药准字Z35020005");\
+            return getSecondeSpan("");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
+        return null;
+    }
+
+    /**
+     * 获取第一跨度链接
+     *
+     * @return
+     */
+    private String getFirstSpan(String paramsValue) throws Exception {
+        String result = HttpClientUtil.doGet("http://www.yaopinnet.com/tools/wenhao.asp", "keyword", paramsValue);
         Document doc = Jsoup.parse(result);
+        Element element = doc.body();
+        Element e = element.getElementById("search_list_table");
+        String html = e.html();
 
-        String title = doc.title();
+        //第二个A标签的位置
+        int startLastIndex = html.lastIndexOf("<a");
+        int endLastIndex = html.lastIndexOf("</a>");
 
+        String aRestult = html.substring(startLastIndex, endLastIndex);
+
+        // 截取 a 标签的 href 属性值
+        int startIndex = aRestult.indexOf("href=");
+        int endIndex = aRestult.indexOf(".htm");
+
+        String href = aRestult.substring(startIndex + 6, endIndex);
+        String completeUri = "http://www.yaopinnet.com".concat(href).concat(".htm");
+        //System.err.println(completeUri);
+        return completeUri;
+    }
+
+
+    /**
+     * 获取第二跨度链接
+     *
+     * @return
+     */
+    private String getSecondeSpan(String uri) throws Exception {
+        //String result = HttpClientUtil.doGet(uri);
+
+        String result = HttpClientUtil.doGet("http://www.yaopinnet.com/z05/Z35020005.htm");
+        Document doc = Jsoup.parse(result);
         Element element = doc.body();
 
-        Element e = element.getElementById("search_list_table");
+        Elements e = element.getElementsByClass("w_content");
+        //e.a
+        System.err.println(e.html());
 
-
-        Elements e1 =   e.getElementsByAttribute("href");
-
-        String tableContent = e1.html();
-        System.err.println(tableContent);
-
-        return tableContent;
+        return "";
     }
+
 
 }

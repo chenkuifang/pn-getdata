@@ -41,6 +41,11 @@ public class KmDataServiceImpl implements KmDataService {
     }
 
     @Override
+    public Integer updateExplains(String id, String explain) {
+        return kmDataMapper.updateExplains(id, explain);
+    }
+
+    @Override
     public Integer add(KmData kmData) {
         return kmDataMapper.add(kmData);
     }

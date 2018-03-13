@@ -14,7 +14,7 @@
 		<result property="isSpecial" column="is_special" jdbcType="VARCHAR"/>
 		<result property="unit" column="unit" jdbcType="VARCHAR"/>
 		<result property="agentType" column="agent_type" jdbcType="VARCHAR"/>
-		<result property="explain" column="explain" jdbcType="VARCHAR"/>
+		<result property="explain1" column="explain1" jdbcType="VARCHAR"/>
 
 		<!--&lt;!&ndash; 角色一对一映射关系 &ndash;&gt;-->
 		<!--<association property="role" javaType="Role">   -->
@@ -27,7 +27,7 @@
 		a.id,a.number,a.name,a.spec
 		,a.source,a.production_unit,a.document_number
 		,a.type,a.is_prescription,a.is_medical,a.is_special
-		,a.unit,a.agent_type,a.explain
+		,a.unit,a.agent_type,a.explain1
 	</sql>
 
 	<select id="get" resultMap="kmData" parameterType="java.lang.Integer">
@@ -40,13 +40,9 @@
 	<select id="list" resultMap="kmData" parameterType="java.util.Map">
 		select
 			<include refid="columns" />
-		<where>
-			<if test="userName != null and userName != ''">
-				a.user_name like '%${userName}%'
-			</if>
-
-		</where>
-		order by a.id desc
+		from pn_km_data a
+		order by a.id asc
+		limit 1490,1000
 	</select>
 
 	<insert id="add" parameterType="KmData">
@@ -54,11 +50,11 @@
 			(number,name,spec
 			,source,production_unit,document_number
 			,type,is_prescription,is_medical,is_special,unit
-			,agent_type,explain)
+			,agent_type,explain1)
 		values (
 			#{number,}, #{name}, #{spec}, #{source},
 			#{productionUnit}, #{documentNumber}, #{type}, #{isPrescription},
-			#{isMedical}, #{isSpecial},#{unit}, #{agentType}, #{explain}
+			#{isMedical}, #{isSpecial},#{unit}, #{agentType}, #{explain1}
 		)
 	</insert>
 
@@ -89,6 +85,12 @@
 		</foreach>
 
 	</insert>
+
+	<update id="updateExplains" parameterType="java.lang.String">
+		update pn_km_data
+		set explain1=#{explain1,jdbcType=VARCHAR}
+		where id=#{id,jdbcType=VARCHAR}
+	</update>
 
 	<update id="update" parameterType="User">
 		update pn_km_data

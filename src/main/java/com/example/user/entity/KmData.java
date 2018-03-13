@@ -21,7 +21,7 @@ public class KmData {
     private String isSpecial;
     private String unit;
     private String agentType;
-    private String explain;
+    private String explain1;
 
     public String getNumber() {
         return number;
@@ -111,12 +111,12 @@ public class KmData {
         this.agentType = agentType;
     }
 
-    public String getExplain() {
-        return explain;
+    public String getExplain1() {
+        return explain1;
     }
 
-    public void setExplain(String explain) {
-        this.explain = explain;
+    public void setExplain1(String explain1) {
+        this.explain1 = explain1;
     }
 
     public Integer getId() {
@@ -151,7 +151,7 @@ public class KmData {
                 ", isSpecial='" + isSpecial + '\'' +
                 ", unit='" + unit + '\'' +
                 ", agentType='" + agentType + '\'' +
-                ", explain='" + explain + '\'' +
+                ", explain1='" + explain1 + '\'' +
                 '}';
     }
 }

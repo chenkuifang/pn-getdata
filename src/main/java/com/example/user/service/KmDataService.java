@@ -38,6 +38,15 @@ public interface KmDataService {
     Integer update(KmData kmData);
 
     /**
+     * 根据ID 更新内容
+     *
+     * @param id
+     * @param explain
+     * @return
+     */
+    Integer updateExplains(String id, String explain);
+
+    /**
      * 新增
      *
      * @param kmData

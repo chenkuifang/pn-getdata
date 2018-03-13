@@ -3,6 +3,7 @@ package com.example.user.mapper;
 import com.example.user.entity.KmData;
 import com.example.user.entity.User;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 import java.util.Map;
@@ -63,6 +64,15 @@ public interface KmDataMapper {
      * @return
      */
     KmData get(Integer id);
+
+    /**
+     * 根据ID 更新内容
+     *
+     * @param id
+     * @param explain
+     * @return
+     */
+    Integer updateExplains(@Param("id") String id, @Param("explain1") String explain);
 
 
     /**

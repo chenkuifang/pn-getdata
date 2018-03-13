@@ -1,5 +1,5 @@
 server:
-  port: 8080
+  port: 8081
 
 spring:
     #mysql tomcat连接池
@@ -7,7 +7,7 @@ spring:
     driver-class-name: com.mysql.jdbc.Driver
     url: jdbc:mysql://localhost:3306/test?useUnicode=true&amp;characterEncoding=UTF-8&amp;autoReconnect=true&amp;autoReconnectForPools=true
     username: root
-    password: root
+    password: 123456
   couchbase:
     env:
       ssl:

@@ -31,8 +31,8 @@ CREATE TABLE `pn_user` (
 -- ----------------------------
 -- Table structure for pn_user
 -- ----------------------------
-DROP TABLE IF EXISTS `pn_km-data`;
-CREATE TABLE `pn_km-data` (
+DROP TABLE IF EXISTS `pn_km_data`;
+CREATE TABLE `pn_km_data` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT,
   `number` varchar(20) DEFAULT NULL COMMENT '货号',
   `name` varchar(50) DEFAULT NULL COMMENT '名称',
