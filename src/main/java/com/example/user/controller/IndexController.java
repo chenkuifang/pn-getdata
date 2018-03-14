@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -57,7 +58,10 @@ public class IndexController {
         try {
             List<KmData> data = ReadExcel.readXls(fileName);
 
-            //result = kmDataService.addBatch(data);
+            List<KmData> top1000 = new ArrayList<KmData>();
+            top1000.addAll(data.subList(4000, 4842));
+
+            result = kmDataService.addBatch(top1000);
 
         } catch (IOException e) {
             e.printStackTrace();

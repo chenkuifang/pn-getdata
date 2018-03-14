@@ -46,7 +46,7 @@ CREATE TABLE `pn_km_data` (
   `is_special` varchar(20) DEFAULT NULL COMMENT '是否含麻黄碱',
   `unit` varchar(20) DEFAULT NULL COMMENT '单位',
   `agent_type` varchar(20) DEFAULT NULL COMMENT '剂型',
-  `explain` varchar(1000) DEFAULT NULL COMMENT '说明',
+  `explain1` text DEFAULT NULL COMMENT '说明',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='康美数据表';
 

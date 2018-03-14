@@ -12,6 +12,9 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
+/***
+ * 药源网 搜索
+ */
 public class MainBen2 {
 
     public static void main(String[] args) throws IOException {

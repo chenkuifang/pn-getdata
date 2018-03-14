@@ -74,6 +74,14 @@ public interface KmDataMapper {
      */
     Integer updateExplains(@Param("id") String id, @Param("explain1") String explain);
 
+    /**
+     * 更新文案号
+     *
+     * @param id
+     * @param document_number
+     * @return
+     */
+    Integer updateDocument(@Param("id") String id, @Param("document_number") String document_number);
 
     /**
      * 根据条件获取列表

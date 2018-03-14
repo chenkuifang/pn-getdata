@@ -38,13 +38,14 @@
 	</select>
 
 	<select id="list" resultMap="kmData" parameterType="java.util.Map">
-		<!--select
-			<include refid="columns" />
-		from pn_km_data a
-		order by a.id asc
-		limit 3366,246-->
-
-		select id,explain1 from pn_km_data where explain1 LIKE '%分享到：%'
+		SELECT
+		*
+		FROM
+		pn_km_data1
+		WHERE
+		document_number != ''
+		ORDER BY
+		id
 
 	</select>
 
@@ -67,7 +68,7 @@
 			number,name,spec,source
 			,production_unit,document_number
 			,type,is_prescription,is_medical
-			,is_special,unit,agent_type
+			,is_special,unit,agent_type,explain1
 		)
 		values
 		<foreach collection="list" item="kmData" index="index" separator=",">
@@ -83,7 +84,8 @@
 				#{kmData.isMedical,jdbcType=VARCHAR},
 				#{kmData.isSpecial,jdbcType=VARCHAR},
 				#{kmData.unit,jdbcType=VARCHAR},
-				#{kmData.agentType,jdbcType=VARCHAR}
+				#{kmData.agentType,jdbcType=VARCHAR},
+				#{kmData.explain1,jdbcType=VARCHAR}
 			)
 		</foreach>
 
@@ -92,6 +94,12 @@
 	<update id="updateExplains" parameterType="java.lang.String">
 		update pn_km_data
 		set explain1=#{explain1,jdbcType=VARCHAR}
+		where id=#{id,jdbcType=VARCHAR}
+	</update>
+
+	<update id="updateDocument" parameterType="java.lang.String">
+		update pn_km_data1
+		set document_number=#{document_number,jdbcType=VARCHAR}
 		where id=#{id,jdbcType=VARCHAR}
 	</update>
 

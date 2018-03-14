@@ -47,6 +47,15 @@ public interface KmDataService {
     Integer updateExplains(String id, String explain);
 
     /**
+     * 更新文案号
+     *
+     * @param id
+     * @param document_number
+     * @return
+     */
+    Integer updateDocument(String id, String document_number);
+
+    /**
      * 新增
      *
      * @param kmData

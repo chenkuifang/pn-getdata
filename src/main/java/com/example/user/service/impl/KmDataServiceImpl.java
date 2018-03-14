@@ -46,6 +46,11 @@ public class KmDataServiceImpl implements KmDataService {
     }
 
     @Override
+    public Integer updateDocument(String id, String document_number) {
+        return kmDataMapper.updateDocument(id, document_number);
+    }
+
+    @Override
     public Integer add(KmData kmData) {
         return kmDataMapper.add(kmData);
     }

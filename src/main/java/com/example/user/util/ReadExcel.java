@@ -11,6 +11,7 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -68,7 +69,7 @@ public class ReadExcel {
                     XSSFCell unit = hssfRow.getCell(10);
                     XSSFCell agentType = hssfRow.getCell(11);
 
-                   // XSSFCell explain = hssfRow.getCell(12);
+                    XSSFCell explain = hssfRow.getCell(12);
 
 //                    result.add(getValue(number));
 //                    result.add(getValue(name));
@@ -101,7 +102,7 @@ public class ReadExcel {
                     kmData.setIsMedical(getValue(isMedical));
                     kmData.setIsSpecial(getValue(isSpecial));
                     kmData.setAgentType(getValue(agentType));
-                   //kmData.setExplain(getValue(explain));
+                    kmData.setExplain1(getValue(explain));
                     kmData.setUnit(getValue(unit));
                     result.add(kmData);
 
@@ -114,10 +115,19 @@ public class ReadExcel {
 
 
     private static String getValue(XSSFCell hssfCell) {
+
+        if (hssfCell == null) {
+            return "";
+        }
+
         if (hssfCell.getCellType() == CellType.BOOLEAN.getCode()) {
             return String.valueOf(hssfCell.getBooleanCellValue());
         } else if (hssfCell.getCellType() == CellType.NUMERIC.getCode()) {
-            return String.valueOf(hssfCell.getNumericCellValue());
+
+            DecimalFormat df = new DecimalFormat("0");
+            return df.format(hssfCell.getNumericCellValue());
+
+            //return String.valueOf(hssfCell.getNumericCellValue());
         } else {
             return String.valueOf(hssfCell.getStringCellValue());
         }

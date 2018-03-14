@@ -2,6 +2,7 @@ package com.example.user.controller;
 
 import com.example.user.entity.KmData;
 import com.example.user.service.KmDataService;
+import com.example.user.util.MainBen1;
 import com.example.user.util.MainBen2;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,6 +26,24 @@ public class GetDataController {
     @GetMapping("/index1")
     public String index1() {
         return "hello world";
+    }
+
+
+    @GetMapping("/update-data")
+    public String updateData() {
+
+        //获得表1 说明非空的数据列表
+        List<KmData> list = kmDataService.list(null);
+        System.err.println("需要修改的数量：" + list.size());
+        for (KmData kmData : list) {
+            String id = kmData.getId() + "";
+            String exp = kmData.getExplain1();
+
+            kmDataService.updateExplains(id, exp);
+
+        }
+
+        return "OK";
     }
 
 
@@ -65,6 +84,32 @@ public class GetDataController {
         return "clear....";
     }
 
+    @GetMapping("/get-document")
+    public String getDocumentNumber() {
+        List<KmData> list = kmDataService.list(null);
+
+        if (!list.isEmpty()) {
+            for (KmData kmData : list) {
+                String documentNumber = kmData.getDocumentNumber();
+                int id = kmData.getId();
+                if (documentNumber.length() > 9) {
+                    int index = documentNumber.indexOf("（原");
+                    if (index > 0) {
+                        documentNumber = documentNumber.substring(0, index);
+                        System.err.println(documentNumber);
+                    }
+
+                    kmDataService.updateDocument(id + "", documentNumber);
+                    //System.err.println(documentNumber);
+                }
+
+                //System.err.println(documentNumber);
+
+            }
+        }
+
+        return "get document number";
+    }
 
     @GetMapping("/go1")
     public String getexplanData() {
@@ -72,42 +117,49 @@ public class GetDataController {
         // 说明书
         List<String> explains = null;
 
-        try {
+        List<KmData> list = kmDataService.list(null);
 
-            List<KmData> list = kmDataService.list(null);
+        String documentNumber;
+        Integer id;
+        for (KmData kmData : list) {
+            // 非空
+            if (StringUtils.isNotBlank(kmData.getDocumentNumber())) {
+                String url = "http://yp.120ask.com/search?kw=";
+                documentNumber = kmData.getDocumentNumber();
+                id = kmData.getId();
 
-            String documentNumber;
-            Integer id;
-            for (KmData kmData : list) {
-                // 非空
-                if (StringUtils.isNotBlank(kmData.getDocumentNumber())) {
-                    String url = "http://www.yaopinnet.com/tools/wenhao.asp?keyword=";
-                    documentNumber = kmData.getDocumentNumber();
-                    id = kmData.getId();
-                    url += documentNumber;
+                url += documentNumber.trim();
 
-                    System.err.println("uri:" + url);
+                System.err.println("uri:" + url);
 
-                    //Thread.sleep(1000);
+                try {
+                    Thread.sleep(500);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
 
-                    // 爬数据
-                    explains = MainBen2.getDetailUrl(url);
+                // 爬数据
+                String detailUri = MainBen1.getDetailUri(url);
 
-                    if (!explains.isEmpty()) {
-                        StringBuilder str = new StringBuilder();
-                        for (String obj : explains) {
-                            str.append(obj);
-                        }
+                if (StringUtils.isNotBlank(detailUri)) {
+                    detailUri = "http:" + detailUri;
+                    explains = MainBen1.getDetai(detailUri);
+                } else {
+                    continue;
+                }
 
-                        // 插入数据库
-                        if (id != null && str.toString() != "") {
-                            kmDataService.updateExplains(id + "", str.toString());
-                        }
+                if (!explains.isEmpty()) {
+                    StringBuilder str = new StringBuilder();
+                    for (String obj : explains) {
+                        str.append(obj);
+                    }
+
+                    // 插入数据库
+                    if (id != null && str.toString() != "") {
+                        kmDataService.updateExplains(id + "", str.toString());
                     }
                 }
             }
-        } catch (IOException e) {
-            e.printStackTrace();
         }
 
         return "";
