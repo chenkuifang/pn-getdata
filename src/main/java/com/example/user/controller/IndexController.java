@@ -2,7 +2,6 @@ package com.example.user.controller;
 
 import com.example.user.entity.KmData;
 import com.example.user.service.KmDataService;
-import com.example.user.util.HttpClientUtil;
 import com.example.user.util.ReadExcel;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
